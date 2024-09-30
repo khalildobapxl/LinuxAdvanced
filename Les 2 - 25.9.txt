@@ -1,0 +1,16 @@
+Docker logs [naam] -f (om life te volgen)
+docker ps: processes listen
+
+docker image ls: list alle images
+docker image rm [image]: wegdoen
+
+docker run --rm : na exiten doe de container weg
+
+
+Exec van een image:
+uname -a : welke soort Linux
+
+
+
+
+docker run -it ubuntu
