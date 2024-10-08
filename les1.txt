@@ -1,0 +1,69 @@
+******************
+[Basic Commando's]
+******************
+
+Note: tussen quotes staat altijd het commando
+
+Voordat je docker CLI kan gebruiken, moet je docker engine opstarten via de Docker Desktop
+
+Wanneer je een container wil starten, gaat docker eerst de image pullen als dat niet al bestaat op je pc, dan een container aanmaken en starten.
+Het basis commando is: "docker run [OPTIONS] IMAGE [ARGS]"
+
+bvb: docker run hello-world
+Hier is hello-world de IMAGE
+
+Deze gaat de image pullen (standaard van hub.docker.com) en dan een container van maken en starten
+
+Wanneer je eender welk container start en geen naam geeft, wordt deze automatisch genoemd.
+om een naam te geven aan een container, gebruik de optie --name: "docker run --name MyFirstContainer hello-world"
+
+[Opties]
+
+-d: runt de container in de achtergrond (detached)
+-p [host]:[container]: gaat de poort van de container mappen met de poort van de container.
+bvb: -p 8080:1065 wanneer de host een request krijgt op poort 8080 gaat hij die doorsturen aan poort 1065 van de container.
+
+Om de runnende containers te listen: "docker container ls", een oudere versie is "docker ps", met de optie -a list je alle containers, ook de gestopte.
+[/Opties]
+
+NOTE: Elke container is afhankelijk van één process, wanneer dat klaar is, wordt de container gestopt.
+
+Je kan een runnende container stoppen met: "docker container stop [NAAM\ID]" je gebruikt ofwel naam of id
+
+Om een container weg te doen: "docker container rm CONTAINER". Als de container nog in run toestand is, kan ofwel de container eerst stoppen dan wegdoen, of -f gebruiken om te forcen.
+
+
+In de basis commando staat [ARGS], deze zijn argumenten die worden uitgevoerd in de container zelf. 
+bvb: docker run ubuntu echo "Hello World!" dit gaat een ubuntu container opstarten en Hello World! op scherm printen. 
+Zoals boven werd vermeld, elke container is afhankelijk van een process. Deze container is afhakelijk van het process "echo" daarom na uitvoeren van dit commando wordt de container gestopt.
+
+[Opties]
+-it: gaat een container in Interactive mode (shell) starten
+bvb: "docker run -it ubuntu bash" deze gaat een shell opstarten dat je kan gebruiken om commando's uit te voeren in de container
+
+--rm: Deze gaat de container automatisch wegdoen wanneer die klaar is. Wordt meestal gebruikt als je een tool binnen een container ene keer wilt gebruiken, bvb curl of nmap
+vb:
+"docker run --rm instrumentisto/nmap -p 80,443 pxl.be" Deze gaat nmap downloaden en de poorten 80,443 scannen van pxl.be
+
+[/Opties]
+
+
+Elke container heeft environment arguments wanneer die aangemaakt wordt. Je kan deze aanpassen via de optie -e
+
+[Opties]
+-e: instellen van environment variabelen van een container
+vb:
+"docker run -ite "USERNAME=pxl" ubuntu bash" deze gaat een nieuwe ubuntu container in interactive mode starten en de USERNAME var isntellen als pxl.
+[/Opties]
+
+
+Als je een runnende container hebt en je wil commando's uitvoeren in de shell van de container, gebruik: "docker run exec CONTAINER COMMAND" Als je aanhoudende in de shell wil blijven, gebruik -it met het commando bash
+bvb: docker exec -it mynginx bash.
+
+"docker inspect CONTAINER" gaat info over de container teruggeven
+
+Om de logs van een container te bekijken: "docker logs COTAINER", gebruik -f om life te volgen
+
+"docker stats CONTAINER" toont real-time prestatie van de container, enkel "docker stats" toont voor alle actieve containers. Doe Ctrl+c 3 keer om te verlaten.
+
+
