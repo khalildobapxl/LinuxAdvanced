@@ -1,0 +1,55 @@
+- "docker run [OPTIONS] IMAGENAME:TAGS" Tags geeft aan welke versie je wil donwloaden, standaard is het de laatste
+
+- Een image wegdoen: "docker image rm IMAGE" als er container van deze image bestaan, moet je die eerst wegdoen, of gewoon --force 
+
+- "docker image prune" gaat alle oude versie van images wegdoen, deze noemen danglings. Met -a doe je alle ongebruikte images weg.
+
+Images zijn gebouwed in lagen, gebruikmakend van het filesystem overlay2: 
+de eerste laag bevat het besturingssyteem.
+de midden lagen bevaten de applicaties (Apache, nginx, MySQL).
+de op lagen bevatten updates en patches
+
+Wanneer je een container opstart, wordt deze boven de top laag geplaatst.
+
+- "docker history IMAGE" toont alle lagen van een image.
+
+- Je kan van een bestaande image een nieuwe aanmaken met extra lagen, bvb een instelling binnen een container like een package bijdoen aan je base image: "docker commit CONTAINER NEW-IMAGE-NAME"
+
+vb:
+"docker run -it --name my-alpine-container alpine /bin/sh"
+dan binnen de container installeren  we curl: 
+"apk update && apk upgrade && apk add curl" (apk is hetzelfde als apt in lunix of yum in amazon linux, een package manager)
+Daarna commiten we de nieuwe laag en voegen we het toe aan de image:
+"docker commit my-alpine-container my-newalpine-image"
+met "docker image ls" zien we de iamge:
+
+my-newalpine-image   latest    d163cf0668a1   9 seconds ago   26MB
+
+
+
+- Je kan een image opslaan als tar bestand als je het wil delen of ergens opslaan: "docker save -o FILENAME.tar IMAGE"
+- Om een image to loaden en gebruiken: "docker load -i FILENAME"
+
+
+
+[Exercises]
+
+
+1. 
+"docker run -it --name ubuntu1 ubuntu bash"
+"docker inspect ubuntu1"
+
+2. 
+"docker run -d --name test busybox tail -f /dev/null" tail -f zodat hij blijft runnen, maw trail is het main process
+"docker exec -it test sleep infinity" wanneer je deze uitvoert gaat je shell zeker vast blijven, je gaat verder in een andere terminal voor de rest van de commando's
+"docker exec -it test ps": 
+PID   USER     TIME  COMMAND
+    1 root      0:00 tail -f /dev/null
+    7 root      0:00 sleep infinity
+   13 root      0:00 ps
+
+"docker exec -it test kill 7"
+
+3.
+"docker load -i ubcounter_image.tar"
+"dokcer run -it --name test ubcounter bash"
