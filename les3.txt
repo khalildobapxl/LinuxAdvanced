@@ -1,0 +1,88 @@
+- Standaard, alle gemaakte data in een container zijn weggeschreven wanneer de container gestopt is. Data bijhouden kan op 2 manieren:
+1. Volumes, 2. Bind Mounts
+
+*********
+[Volumes]
+*********
+
+Ze zijn volumes in Docker en worden beheerd door docker zelf. Worden vaak gebruikt voor: Databases of logs van apps die bijgehouden moeten blijven
+
+
+"docker volume create NAME" maakt een nieuwe volume aan
+"docker volume inspect VOLUME" geeft info over een volume
+"docker volume rm VOLUME" doet een volume weg
+
+je gebruikt de -v optie tijdens het runnen van een container om een volume te verbinden.
+
+vb:
+
+"docker volume create mydata"
+"docker run --name mynginx -d -v mydata:/usr/share/nginx/html nginx" Hier kan je mydata zien alsof het het mapje html is.
+Alles wat in html mapje zet, blijft bijgehouden in mydata zelf als je de container wegdoet.
+
+Je kan de data van mydata colume altijd bekijken door het te mouten aan een tijdelijke container:
+"docker run --rm -v mydata:/data busybox ls -la /data"
+
+*************
+[Bind Mounts]
+*************
+
+Bind mounts is een manier om een directory van de host te mappen met een container. 
+
+vb:
+
+
+"mkdir nginxfiles && echo '<html><body><h1>Hallo PXL!</h1></body></html>' > ./nginxfiles/index.html" Ik heb de dir nginxfiles aangemaakt en het index.html bestand.
+"docker run --name mynginx -d -p 8080:80 -v /home/khalil/nginxfiles:/usr/share/nginx/html nginx" Hier wordt een container aangemaakt en de dir nginxfiles verbindt met de map html in de container. Nu kan je rechtstreeks aan nginxfiles werken zonder in de container te gaan. Alles wat je aanpast in de nginxfiles is hetzelfde in de container en andersom
+
+
+
+
+[Exercises]
+
+1. 
+
+"mkdir nginx_site1 nginx_site2"
+"echo '<html><body><h1>Nginx site 1</h1></body></html>' > ./nginx_site1/index.html"
+"echo '<html><body><h1>Nginx site 2</h1></body></html>' > ./nginx_site2/index.html"
+"docker run --name nginxsite1 -d -p 8080:80 -v /home/khalil/nginx_site1:/usr/share/nginx/html nginx"
+"docker run --name nginxsite2 -d -p 9090:80 -v /home/khalil/nginx_site2:/usr/share/nginx/html nginx"
+
+2. 
+
+"docker volume create shared_data"
+"docker run -it -v shared_data:/data busybox /bin/sh"
+binnen de container: "echo "Hello from container 1" > /data/message.txt"
+als we nu een andere container aanmaken met de shared_data colume, zien we het bericht.
+
+3.
+
+
+We maken een netwerk in docker: "docker network create mynetwork"
+
+"docker run --name mymysql -d -e MYSQL_ROOT_PASSWORD=pxl -p 3306:3306 -v mysql_data:/var/lib/mysql --network mynetwork mysql"
+"docker run --name myphpmyadmin --network mynetwork -d -p 8081:80 -e PMA_HOST=mymysql phpmyadmin"
+
+Als we "docker inspect mynetwork" uitvoeren, zien we duidelijk dat de twee containers dit netwerk delen.
+
+nu kunnne we via localhost:8081 inloggen met username:root en wachtwoord:pxl
+
+4.
+
+"docker run --name mynginx -d -p 8080:80 -v logs_data:/var/log/nginx nginx"
+"docker run --name myhttpd -d -p 8081:80 -v logs_data:/usr/local/apache2/logs httpd"
+"docker run --rm -v logs_data:/data busybox ls -la /data"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
