@@ -1,0 +1,6 @@
+FROM WORKDIR COPY en RUN worden tijdens het builden uitgevoerd
+Elk zit in een aparte layer
+
+EXPOSE is puur informatief
+
+nginx -g daemen off runt de server in de achtergrond
