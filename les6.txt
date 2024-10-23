@@ -1,0 +1,14 @@
+Met tags kan je versies geven aan je images.
+bv: 
+1.tijdens build:
+"docker build . -t myapp:1.0.0"
+
+2.na build:
+"docker tag myapp:1.0.0 myapp:1.0.1"
+"docker tag myapp:1.0.1 myapp:latest"
+
+Met push kan je images aan een repo op docker hub pushen, om een image to pushen moet de name hebben van: <username>/<image>
+bv:
+"docker tag myapp:1.0.1 <username>/myapp:latest"
+"docker push <username>/myapp:latest"
+een repo wordt aangemaakt als dat niet al bestaat, met hetzelfde naam als de image.

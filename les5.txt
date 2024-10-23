@@ -3,4 +3,57 @@ Elk zit in een aparte layer
 
 EXPOSE is puur informatief
 
-nginx -g daemen off runt de server in de achtergrond
+nginx -g daemon off runt de server in de achtergrond
+
+je kan tags gebruiken om je images een versie te geven
+
+************
+[Dockerfile]
+************
+
+om een dockerfile te maken maak je eerst een bestand noemt Dockerfile, dockerfile werkt ook, DockerFile WERKT NIET.
+
+onze docker file begint altijd met FROM clause dat bepaald welke base image we willen gebruikem, bv: mysql, node, postgresql enz.
+vb: FROM nginx:alpine
+
+Als we een working directory willen geven, is dat met WORKDIR, als de directory niet bestaat, maakt hij dat zelf aan.
+
+Stel dat we bestanden van ons machine willen kopiëren naar de image, gebruiken we COPY [path/to/files] [destination].
+
+EXPOSE in de CLI is puur informatief, dat wil zeggen dat het niks in de image wijzigt, gewoon te zeggen dat je poort #### moet mappen met de host.
+In Docker Desktop is het anders, wanneer je een container probeert aan te maken, via expose kent de app welke poort moet gemapt worden en onder Optional Settings zie je dat.
+
+
+met RUN kan je commando's laten uitvoeren tijdens de build, meestal om noodzakelijke packages te installeren.
+
+CMD wordt na de build uitgevoerd, tijdens runtime. Gewoon commando uitvoeren in de machine. Syntax ziet als volgend uit: CMD ["executable", "param1", "param2", ...] bv: CMD ["nginx", "-g", "daemon off;"] of CMD COMMANDO bv: CMD echo Hello World, beter de eerste
+
+NOTES: ALLE RUN commando's worden uitgevoerd en ENKEL de laatste CMD wordt uitgevoerd. Als je met docker run op het einde een commando meegeeft, wordt CMD in dockerfile genegeerd. bv: docker run hello:v1.0.0 echo "test override CMD"
+
+
+Na het aanmaken van dockerfile gaan we nu de image builden met: "dokcer build . -t myfirstimage" . wil zeggen huidige dir. Nu kunnen we een container runnen van de image: "docker run myfirstimage"
+
+[Exercise]
+
+2. 
+
+dockerfile:
+FROM postgres:latest
+ENV POSTGRES_DB=mydb
+ENV POSTGRES_USER=myuser
+ENV POSTGRES_PASSWORD=mypassword
+EXPOSE 5432
+CMD [ "postgres" ]
+
+image build:
+"docker build . -t mypostgresql"
+
+container1:
+"docker run --name postgresql1 -dp 5432:5432 mypostgresql"
+
+container2:
+"docker run --name postgresql2 -it --rm --network="host" mypostgresql bash"
+
+bash container2:
+"psql -h localhost -p 5432 -U myuser -d mydb"
+
