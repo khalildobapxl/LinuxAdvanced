@@ -7,7 +7,7 @@
 Images zijn gebouwed in lagen, gebruikmakend van het filesystem overlay2: 
 de eerste laag bevat het besturingssyteem.
 de midden lagen bevaten de applicaties (Apache, nginx, MySQL).
-de op lagen bevatten updates en patches
+de bovenste lagen bevatten updates en patches
 
 Wanneer je een container opstart, wordt deze boven de top laag geplaatst.
 
@@ -28,7 +28,7 @@ my-newalpine-image   latest    d163cf0668a1   9 seconds ago   26MB
 
 
 - Je kan een image opslaan als tar bestand als je het wil delen of ergens opslaan: "docker save -o FILENAME.tar IMAGE"
-- Om een image to loaden en gebruiken: "docker load -i FILENAME"
+- een image loaden en gebruiken: "docker load -i FILENAME"
 
 
 

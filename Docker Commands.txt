@@ -1,0 +1,41 @@
+docker run <IMAGE> <ARGS>: runt een container van een image en voert de <ARGS> in de container 
+docker run --name <NAAM> <IMAGE>: runt een container met een naam van keuze
+docker run -d <IMAGE>: runt een container in de achtergrond.
+docker run -p [host]:[container] <IMAGE>: mapt de poort van de host met de container.
+docekr run -it <IMAGE> bash of sh of /bin/bash enz: runt een container in interactive mode.
+docekr run --rm <IMAGE>: container automatisch wegdoen wanneer die klaar is.
+docker run -e <ENV> <IMAGE>: instellen van environment variabelen van een container.
+docker run exec <CONTAINER> <COMMAND>: commando's runnen in de container.
+
+docker container ls: lijst alle runnende containers op.
+docker container ls -a: lijst alle containers op.
+docker ps = docker container ls
+docker container stop <NAAM/ID>: stopt een container.
+docker container rm <CONTAINER>: doet een gestopte container weg.
+docker container rm <CONTAINER> -f: doet een container weg.
+
+docker inspect <CONTAINER>: container info.
+docker logs <CONTAINER>: logs tonen van een container.
+docker logs <CONTAINER> -f: logs volgen van een container.
+docker stats <CONTAINER>: real-time prestatie van een container.
+docker image ls: toont alle images.
+docker image rm <IMAGE>: image wegdoen.
+docker history <IMAGE>: Toont alle lagen van een image.
+
+docker volume create <NAME>: maakt een nieuwe volume aan.
+docker volume inspect <VOLUME>: geeft info over een volume.
+docker volume rm <VOLUME>: doet een volume weg.
+docker run -v <VOLUME>:<pad/in/container> <IMAGE>: verbindt een volume met een dir in de container.
+docker run -v <pad/in/host>:<pad/in/container> <IMAGE>: verbindt een dir in de host met een dir in de container.
+
+docker build <path/to/dockerfile> -t <tags>: build een image met een tag(s).
+docker tag <old tag> <new tag> ....: tagt een image met een nieuwe tag van de vorige tag.
+docker logout: uitlogt van docker hub.
+docker login: inlogt op docker hub.
+docker push <username>/<IMAGE>:<tag>: pusht de image naar een repo op docker hub.
+docker commit <CONTAINER> <NEW IMAGE>: voegt de nieuwe instellingen van de container toe aan de base image en maakt een nieuwe image van.
+docker save -o <FILENAME>.tar <IMAGE>: image opslaan als tar bestand.
+docker load -i <FILENAME>:een image loaden en gebruiken
+
+
+

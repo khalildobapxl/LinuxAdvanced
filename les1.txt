@@ -23,7 +23,8 @@ om een naam te geven aan een container, gebruik de optie --name: "docker run --n
 -p [host]:[container]: gaat de poort van de container mappen met de poort van de container.
 bvb: -p 8080:1065 wanneer de host een request krijgt op poort 8080 gaat hij die doorsturen aan poort 1065 van de container.
 
-Om de runnende containers te listen: "docker container ls", een oudere versie is "docker ps", met de optie -a list je alle containers, ook de gestopte.
+Om de runnende containers op te lijsten: "docker container ls", een oudere versie is "docker ps", met de optie -a list je alle containers, ook de gestopte.
+
 [/Opties]
 
 NOTE: Elke container is afhankelijk van één process, wanneer dat klaar is, wordt de container gestopt.
