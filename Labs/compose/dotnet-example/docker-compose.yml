@@ -1,0 +1,17 @@
+services:
+  webapp:
+    build: .
+    ports:
+      - "8000:80"
+    depends_on:
+      - redis
+    networks:
+      - webnet
+
+  redis:
+    image: redis
+    networks:
+      - webnet
+
+networks:
+  webnet:

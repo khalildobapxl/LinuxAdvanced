@@ -1,0 +1,155 @@
+services:
+    web:
+        image:
+        ports:
+            - "80"
+    radis:
+        image:
+    networks:
+        - backend
+    volumes:
+        - db_data
+
+
+types services:
+web, db, frontend, app .....
+
+Services configuraties:
+image: De image voor de service. bv: image: nginx
+container_name: geeft een naam aan de container.
+build: Geeft aan dat de image moet worden gebuild van een Dockerfile. bv: build: path/to/Dockerfile
+command: Werkt hetzelfde als CMD in Dockerfile (ook als een argument voor ENTRYPOINT). bv: command: ["echo", "Hello, world!"]
+ports: Mapt poorten van de container naar de hostmachine. bv: ports: - "8080:80"
+volumes: Mount een hostdirectory of volume in de container. bv: volumes: - ./data:/var/lib/mysql
+environment: Stelt omgevingsvariabelen in binnen de container. bv: environment - NODE_ENV=production
+depends_on: Geeft afhankelijkheden aan, zodat bepaalde services eerder opstarten. bv: depends_on: - db
+
+Een paar voorbeelden:
+
+(1). Nginx met Postgresql:
+
+docker-compose.yml
+    services:
+    web:
+        image: nginx
+        ports:
+            - "8080:80"
+        depends_on:
+            - db
+        networks:
+            - backend
+
+    db:
+        image: postgres
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: exampledb
+        volumes:
+            - db_data:/var/lib/postgresql/data
+        networks:
+            - backend
+
+    networks: # hij gaat een nieuw netwerk maken met naam als backend
+        backend:
+
+    volumes:  # hij gaat een nieuwe volume maken met naam als db_data
+        db_data:
+
+
+
+
+(2).  Web Application met Backend + Frontend + Database:
+
+services:
+  frontend:
+    image: node:14
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: ["npm", "start"]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - appnet
+
+  backend:
+    image: node:14
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    command: ["npm", "run", "dev"]
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    networks:
+      - appnet
+
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - appnet
+
+networks:
+  appnet:
+
+volumes:
+  mongo_data:
+
+
+****************************************************************************
+
+Je kan omgevingsvariabelen in een apart bestand bijhouden en in de compose gebruiken.
+Het bestand noemt .env en wordt met de compose in hetzelfde mapje gezet. 
+LET OP: de syntax is zeer belangrijk wanneer je vars in compose gebruikt. De vars worden in ${} gezet.
+Je kan ook omgevingsvariabelen van de shell gebruiken in compose zoals; USER, HOME enz....
+.env 
+    POSTGRES_USER=user
+    POSTGRES_PASSWORD=password
+    POSTGRES_DB=exampledb
+
+docker-compose.yml
+    services:
+      web:
+        image: nginx
+        ports:
+            - "8080:80"
+        depends_on:
+            - db
+        networks:
+            - backend
+      db:
+        image: postgres
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        volumes:
+            - db_data:/var/lib/postgresql/data
+        networks:
+            - backend
+
+    networks:
+      backend:
+    volumes:  
+      db_data:
+
+
+Je kan nog meerdere env bestaden gebruiken. in het voorbeeld gaat hij zoeken naar web-variables.env
+Als je meerdere bestanden geeft, heeft de laatste voorang als vars overlappen in meerdere bestanden
+
+bv:
+docker-compose.yml
+    services:
+      web:
+        env_file:
+          - web-variables.env
+
+

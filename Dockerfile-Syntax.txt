@@ -1,0 +1,15 @@
+FROM <IMAGE> : kiest een base image.
+
+WORKDIR <pad>: working directory instellen.
+
+COPY <path/to/files> <destination>: bestanden kopiëren naar de image.
+
+ENV <env var>=<value>: environment variabelen instellen.
+
+EXPOSE <port>: welke poort open moet (informatief).
+
+RUN ["COMMAND", "param1", "param2"]: commando runnen tijdens build stage.
+
+CMD ["COMMAND", "param1", "param2"]: commando runnen na build stage.
+
+ENTRYPOINT ["COMMAND", "param1", "param2"]: commando runnen na build stage. Als je CMD en ENTRYPOINT hebt wordt CMD gebruikt als params voor ENTRYPOINT. Als je met docker run <ARGS> meegeeft worden die params gebruikt voor ENTRYPOINT, maar vervangen CMD.
