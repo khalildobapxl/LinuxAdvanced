@@ -1,0 +1,23 @@
+services:
+  nginx-container:
+    image: pxlsystemsadvanced/pxl-nginx:v1
+    container_name: nginx
+    ports:
+      - "8888:80"
+    restart: always
+    volumes:
+      - ./nginxlogs:/var/log/nginx
+    
+  Statviewer-container:
+    image: pxlsystemsadvanced/pxl-statviewer:v1
+    container_name: statviewer
+    ports:
+      - "8889:7880"
+    volumes:
+      - ./nginxlogs:/opt/log
+    environment:
+      - LOG_TYPE=NCSA_COMBINED
+      - LOG_TYPE_FILE_PATTERN=access.log
+    restart: always
+    depends_on:
+      - nginx-container     

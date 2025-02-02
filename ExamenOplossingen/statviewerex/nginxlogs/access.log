@@ -1,0 +1,4 @@
+172.19.0.1 - - [29/Jan/2025:08:30:43 +0000] "GET /mywebserver.html HTTP/1.1" 200 1471 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0" "-"
+172.19.0.1 - - [29/Jan/2025:08:30:43 +0000] "GET /favicon.ico HTTP/1.1" 404 555 "http://localhost:8888/mywebserver.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0" "-"
+172.19.0.1 - - [29/Jan/2025:08:30:51 +0000] "GET /flag1.txt HTTP/1.1" 200 18 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0" "-"
+172.19.0.1 - - [29/Jan/2025:08:32:02 +0000] "GET /welcome.html HTTP/1.1" 200 1409 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0" "-"
